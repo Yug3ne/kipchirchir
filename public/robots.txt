@@ -1,0 +1,34 @@
+# robots.txt for kipchirchirkoech.co.ke
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://kipchirchirkoech.co.ke/sitemap.xml
+
+# Crawl-delay for politeness
+Crawl-delay: 1
+
+# Block common non-essential paths
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /node_modules/
+
+# Allow search engines to index important pages
+Allow: /#home
+Allow: /#about
+Allow: /#experience
+Allow: /#projects
+Allow: /#contact
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing specific
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
