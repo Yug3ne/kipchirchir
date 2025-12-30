@@ -33,7 +33,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Analytics } from "@vercel/analytics/react";
+
 
 // Navigation items
 const navItems = [
@@ -1193,7 +1193,7 @@ export function App() {
         <ContactSection />
         <Footer />
       </main>
-      <Analytics/>
+      
     </div>
   );
 }
