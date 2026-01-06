@@ -41,8 +41,8 @@ export function BlogPage() {
     <div className="min-h-screen bg-background">
       {/* Ambient Background */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-bl from-primary/8 via-transparent to-transparent rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-chart-2/6 via-transparent to-transparent rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-linear-to-bl from-primary/8 via-transparent to-transparent rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-linear-to-tr from-chart-2/6 via-transparent to-transparent rounded-full blur-3xl" />
         {/* Subtle grid pattern */}
         <div
           className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03]"
@@ -57,7 +57,7 @@ export function BlogPage() {
       </div>
 
       {/* Header */}
-      <header className="relative border-b border-border/50 backdrop-blur-xl bg-background/80 sticky top-0 z-50">
+      <header className="border-b border-border/50 backdrop-blur-xl bg-background/80 sticky top-0 z-50">
         <div className="container mx-auto px-4 md:px-8 py-4">
           <div className="flex items-center justify-between">
             <Link
@@ -69,7 +69,7 @@ export function BlogPage() {
             </Link>
             <Link
               to="/"
-              className="size-10 rounded-xl bg-gradient-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-sm"
+              className="size-10 rounded-xl bg-linear-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-sm"
             >
               EK
             </Link>
@@ -83,9 +83,9 @@ export function BlogPage() {
           <div className="max-w-4xl mx-auto text-center space-y-6">
             {/* Decorative element */}
             <div className="flex items-center justify-center gap-3 text-primary">
-              <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/50" />
+              <div className="h-px w-12 bg-linear-to-r from-transparent to-primary/50" />
               <Sparkles className="size-5" />
-              <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/50" />
+              <div className="h-px w-12 bg-linear-to-l from-transparent to-primary/50" />
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
@@ -172,10 +172,10 @@ export function BlogPage() {
                   <Card className="overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5">
                     <div className="grid md:grid-cols-2 gap-0">
                       {/* Image Side */}
-                      <div className="aspect-[4/3] md:aspect-auto relative bg-gradient-to-br from-primary/10 via-chart-2/10 to-chart-3/10 overflow-hidden">
+                      <div className="aspect-4/3 md:aspect-auto relative bg-linear-to-br from-primary/10 via-chart-2/10 to-chart-3/10 overflow-hidden">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="text-center space-y-3">
-                            <div className="size-20 rounded-2xl bg-gradient-to-br from-primary/20 to-chart-2/20 flex items-center justify-center mx-auto backdrop-blur-sm border border-white/10">
+                            <div className="size-20 rounded-2xl bg-linear-to-br from-primary/20 to-chart-2/20 flex items-center justify-center mx-auto backdrop-blur-sm border border-white/10">
                               <BookOpen className="size-8 text-primary" />
                             </div>
                             <p className="text-xs text-muted-foreground/60 font-medium tracking-wider uppercase">
@@ -249,12 +249,12 @@ export function BlogPage() {
                       >
                         <Card className="h-full overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
                           {/* Image */}
-                          <div className="aspect-[16/10] relative bg-gradient-to-br from-muted/50 to-muted overflow-hidden">
+                          <div className="aspect-16/10 relative bg-linear-to-br from-muted/50 to-muted overflow-hidden">
                             <div className="absolute inset-0 flex items-center justify-center">
                               <BookOpen className="size-10 text-muted-foreground/30 group-hover:text-primary/40 transition-colors" />
                             </div>
                             {/* Subtle pattern overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="absolute inset-0 bg-linear-to-t from-card/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                           </div>
 
                           <CardContent className="p-5 space-y-3">

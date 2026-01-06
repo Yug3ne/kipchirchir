@@ -309,7 +309,7 @@ function MobileNav({
       <header className="fixed top-0 left-0 right-0 h-16 bg-card/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 md:hidden">
         <button
           onClick={onLogoClick}
-          className="size-10 rounded-xl bg-gradient-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-lg"
+          className="size-10 rounded-xl bg-linear-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-lg"
         >
           EK
         </button>
@@ -400,7 +400,7 @@ function Sidebar({
       <div className="mb-8">
         <button
           onClick={onLogoClick}
-          className="size-12 rounded-xl bg-gradient-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-xl hover:scale-105 transition-transform cursor-pointer"
+          className="size-12 rounded-xl bg-linear-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-xl hover:scale-105 transition-transform cursor-pointer"
           aria-label="Logo"
         >
           EK
@@ -482,7 +482,7 @@ function HeroSection() {
       className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 md:pt-0"
     >
       {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
+      <div className="absolute inset-0 bg-linear-to-br from-background via-background to-primary/5" />
 
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -576,12 +576,12 @@ function HeroSection() {
           <div className="relative hidden lg:block">
             <div className="relative">
               {/* Decorative elements */}
-              <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 to-chart-2/20 rounded-3xl blur-2xl" />
+              <div className="absolute -inset-4 bg-linear-to-br from-primary/20 to-chart-2/20 rounded-3xl blur-2xl" />
               <div className="absolute -top-8 -right-8 size-32 border-2 border-primary/30 rounded-2xl rotate-12" />
               <div className="absolute -bottom-8 -left-8 size-24 border-2 border-chart-2/30 rounded-xl -rotate-12" />
 
               {/* Profile Image */}
-              <figure className="relative aspect-[3/4] rounded-3xl bg-gradient-to-br from-muted to-muted/50 border border-border overflow-hidden">
+              <figure className="relative aspect-3/4 rounded-3xl bg-linear-to-br from-muted to-muted/50 border border-border overflow-hidden">
                 <img
                   src="/profile.png"
                   alt="Eugene Kipchirchir Koech - Full-Stack Developer specializing in React, Django, and Laravel"
@@ -869,8 +869,8 @@ function ProjectsSection() {
                 className="group overflow-hidden bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300"
               >
                 {/* Project Image */}
-                <div className="aspect-video bg-gradient-to-br from-muted to-muted/50 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-chart-2/10" />
+                <div className="aspect-video bg-linear-to-br from-muted to-muted/50 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-chart-2/10" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
                       <FolderOpen className="size-12 md:size-16 text-muted-foreground/50 mx-auto mb-2" />

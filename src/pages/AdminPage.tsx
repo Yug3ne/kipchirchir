@@ -768,7 +768,7 @@ Happy writing!"
           </Card>
 
           {/* Writing Tips */}
-          <Card className="bg-gradient-to-br from-primary/5 to-chart-2/5 border-primary/20">
+          <Card className="bg-linear-to-br from-primary/5 to-chart-2/5 border-primary/20">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm flex items-center gap-2">
                 <Sparkles className="size-4 text-primary" />
@@ -882,7 +882,7 @@ export function AdminPage() {
       </div>
 
       {/* Header */}
-      <header className="relative border-b border-border/50 backdrop-blur-xl bg-background/80 sticky top-0 z-50">
+      <header className="border-b border-border/50 backdrop-blur-xl bg-background/80 sticky top-0 z-50">
         <div className="container mx-auto px-4 md:px-8 py-4">
           <div className="flex items-center justify-between">
             <Link
@@ -913,7 +913,7 @@ export function AdminPage() {
               </Button>
               <Link
                 to="/"
-                className="size-10 rounded-xl bg-gradient-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-sm"
+                className="size-10 rounded-xl bg-linear-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-sm"
               >
                 EK
               </Link>

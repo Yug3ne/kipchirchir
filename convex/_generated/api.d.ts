@@ -21,7 +21,6 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
 }>;
-declare const fullApi: ApiFromModules<{}>;
 
 /**
  * A utility for referencing Convex functions in your app's public API.
@@ -2028,4 +2027,3 @@ export declare const components: {
     };
   };
 };
-export declare const components: {};
