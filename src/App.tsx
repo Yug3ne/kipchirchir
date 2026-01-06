@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router";
 import {
   Home,
   User,
@@ -19,6 +20,7 @@ import {
   Moon,
   Menu,
   X,
+  BookOpen,
 } from "lucide-react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import {
@@ -34,13 +36,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
-
 // Navigation items
 const navItems = [
   { id: "home", label: "HOME", icon: Home },
   { id: "about", label: "ABOUT", icon: User },
   { id: "experience", label: "WORK", icon: Briefcase },
   { id: "projects", label: "PROJECTS", icon: FolderOpen },
+  { id: "blog", label: "BLOG", icon: BookOpen, isLink: true, href: "/blog" },
   { id: "contact", label: "CONTACT", icon: Mail },
 ];
 
@@ -292,20 +294,25 @@ function MobileNav({
   setIsOpen,
   theme,
   toggleTheme,
+  onLogoClick,
 }: {
   activeSection: string;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   theme: string;
   toggleTheme: () => void;
+  onLogoClick: () => void;
 }) {
   return (
     <>
       {/* Mobile Header */}
       <header className="fixed top-0 left-0 right-0 h-16 bg-card/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 md:hidden">
-        <div className="size-10 rounded-xl bg-gradient-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-lg">
+        <button
+          onClick={onLogoClick}
+          className="size-10 rounded-xl bg-gradient-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-lg"
+        >
           EK
-        </div>
+        </button>
         <div className="flex items-center gap-2">
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
           <Button
@@ -323,21 +330,33 @@ function MobileNav({
       {isOpen && (
         <div className="fixed inset-0 bg-background/95 backdrop-blur-xl z-40 pt-16 md:hidden">
           <nav className="flex flex-col items-center justify-center h-full gap-6">
-            {navItems.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={() => setIsOpen(false)}
-                className={`flex items-center gap-3 text-xl font-medium transition-colors ${
-                  activeSection === item.id
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <item.icon className="size-6" />
-                {item.label}
-              </a>
-            ))}
+            {navItems.map((item) =>
+              "isLink" in item && item.isLink ? (
+                <Link
+                  key={item.id}
+                  to={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-3 text-xl font-medium transition-colors text-muted-foreground hover:text-foreground"
+                >
+                  <item.icon className="size-6" />
+                  {item.label}
+                </Link>
+              ) : (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex items-center gap-3 text-xl font-medium transition-colors ${
+                    activeSection === item.id
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <item.icon className="size-6" />
+                  {item.label}
+                </a>
+              )
+            )}
             <div className="flex gap-4 mt-8">
               <a
                 href="https://www.linkedin.com/in/eugenekoech9/"
@@ -368,41 +387,60 @@ function Sidebar({
   activeSection,
   theme,
   toggleTheme,
+  onLogoClick,
 }: {
   activeSection: string;
   theme: string;
   toggleTheme: () => void;
+  onLogoClick: () => void;
 }) {
   return (
     <aside className="fixed left-0 top-0 h-screen w-20 bg-card/80 backdrop-blur-xl border-r border-border z-50 hidden md:flex flex-col items-center py-8">
-      {/* Logo */}
+      {/* Logo - Triple click for admin */}
       <div className="mb-8">
-        <div className="size-12 rounded-xl bg-gradient-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-xl">
+        <button
+          onClick={onLogoClick}
+          className="size-12 rounded-xl bg-gradient-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-xl hover:scale-105 transition-transform cursor-pointer"
+          aria-label="Logo"
+        >
           EK
-        </div>
+        </button>
       </div>
 
       {/* Navigation */}
       <nav className="flex-1 flex flex-col items-center gap-2">
-        {navItems.map((item) => (
-          <a
-            key={item.id}
-            href={`#${item.id}`}
-            className={`group relative flex flex-col items-center gap-1 p-3 rounded-xl transition-all duration-300 ${
-              activeSection === item.id
-                ? "text-primary bg-primary/10"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-            }`}
-          >
-            <item.icon className="size-5" />
-            <span className="text-[10px] font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity">
-              {item.label}
-            </span>
-            {activeSection === item.id && (
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
-            )}
-          </a>
-        ))}
+        {navItems.map((item) =>
+          "isLink" in item && item.isLink ? (
+            <Link
+              key={item.id}
+              to={item.href}
+              className="group relative flex flex-col items-center gap-1 p-3 rounded-xl transition-all duration-300 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            >
+              <item.icon className="size-5" />
+              <span className="text-[10px] font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity">
+                {item.label}
+              </span>
+            </Link>
+          ) : (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              className={`group relative flex flex-col items-center gap-1 p-3 rounded-xl transition-all duration-300 ${
+                activeSection === item.id
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              <item.icon className="size-5" />
+              <span className="text-[10px] font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity">
+                {item.label}
+              </span>
+              {activeSection === item.id && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+              )}
+            </a>
+          )
+        )}
       </nav>
 
       {/* Theme Toggle */}
@@ -1136,6 +1174,30 @@ export function App() {
   const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+
+  // Triple click detection for admin access
+  const clickCount = useRef(0);
+  const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleLogoClick = () => {
+    clickCount.current += 1;
+
+    if (clickTimer.current) {
+      clearTimeout(clickTimer.current);
+    }
+
+    if (clickCount.current >= 3) {
+      // Triple click detected - go to admin
+      clickCount.current = 0;
+      navigate("/admin");
+    } else {
+      // Reset after 500ms if not triple-clicked
+      clickTimer.current = setTimeout(() => {
+        clickCount.current = 0;
+      }, 500);
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -1150,8 +1212,10 @@ export function App() {
     );
 
     navItems.forEach((item) => {
-      const element = document.getElementById(item.id);
-      if (element) observer.observe(element);
+      if (!("isLink" in item)) {
+        const element = document.getElementById(item.id);
+        if (element) observer.observe(element);
+      }
     });
 
     return () => observer.disconnect();
@@ -1175,6 +1239,7 @@ export function App() {
         activeSection={activeSection}
         theme={theme}
         toggleTheme={toggleTheme}
+        onLogoClick={handleLogoClick}
       />
       <MobileNav
         activeSection={activeSection}
@@ -1182,6 +1247,7 @@ export function App() {
         setIsOpen={setMobileMenuOpen}
         theme={theme}
         toggleTheme={toggleTheme}
+        onLogoClick={handleLogoClick}
       />
 
       <main className="md:ml-20">
@@ -1193,7 +1259,6 @@ export function App() {
         <ContactSection />
         <Footer />
       </main>
-      
     </div>
   );
 }
