@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams, Navigate } from "react-router";
 import {
   ArrowLeft,
   Save,
@@ -25,6 +25,8 @@ import {
   Sparkles,
   Check,
   Loader2,
+  LogOut,
+  Shield,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -44,6 +46,7 @@ import {
   type BlogPost,
   type CreateBlogPostInput,
 } from "@/lib/blog-types";
+import { useAuth } from "@/hooks/use-auth";
 
 // Markdown toolbar buttons
 const toolbarButtons = [
@@ -822,6 +825,7 @@ export function AdminPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { posts, isLoading, refetch } = useAllBlogPosts();
+  const { user, isAuthenticated, signOut } = useAuth();
 
   // Derive editingPostId directly from URL params (no state needed)
   const editingPostId = id === "new" ? "new" : (id ?? null);
@@ -838,6 +842,15 @@ export function AdminPage() {
     refetch();
     navigate("/admin");
   };
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
+  // Redirect if not authenticated
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
   const handleCancel = () => {
     navigate("/admin");
@@ -881,9 +894,23 @@ export function AdminPage() {
             </Link>
             <div className="flex items-center gap-3">
               <Badge variant="outline" className="gap-1.5 font-mono text-xs">
-                <div className="size-2 rounded-full bg-green-500 animate-pulse" />
-                Admin Mode
+                <Shield className="size-3" />
+                Admin
               </Badge>
+              {user && (
+                <span className="text-sm text-muted-foreground hidden sm:block">
+                  {user.name || user.email}
+                </span>
+              )}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSignOut}
+                className="gap-2 text-muted-foreground hover:text-foreground"
+              >
+                <LogOut className="size-4" />
+                <span className="hidden sm:inline">Sign Out</span>
+              </Button>
               <Link
                 to="/"
                 className="size-10 rounded-xl bg-gradient-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-sm"

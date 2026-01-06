@@ -1188,9 +1188,9 @@ export function App() {
     }
 
     if (clickCount.current >= 3) {
-      // Triple click detected - go to admin
+      // Triple click detected - go to login (which will redirect to admin if authenticated)
       clickCount.current = 0;
-      navigate("/admin");
+      navigate("/login");
     } else {
       // Reset after 500ms if not triple-clicked
       clickTimer.current = setTimeout(() => {
