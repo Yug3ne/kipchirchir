@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 
 import { api } from "../../convex/_generated/api";
@@ -87,49 +88,67 @@ export function useBlogPostBySlug(slug: string | undefined) {
 
 export function useCreatePost() {
   const create = useMutation(api.blogs.create);
+  const [isPending, setIsPending] = useState(false);
 
   return {
-    isPending: false,
+    isPending,
     mutate: async (input: CreateBlogPostInput): Promise<void> => {
-      await create({
-        title: input.title,
-        excerpt: input.excerpt,
-        content: input.content,
-        coverImage: input.coverImage,
-        tags: input.tags,
-        status: input.status,
-      });
+      setIsPending(true);
+      try {
+        await create({
+          title: input.title,
+          excerpt: input.excerpt,
+          content: input.content,
+          coverImage: input.coverImage,
+          tags: input.tags,
+          status: input.status,
+        });
+      } finally {
+        setIsPending(false);
+      }
     },
   };
 }
 
 export function useUpdatePost() {
   const update = useMutation(api.blogs.update);
+  const [isPending, setIsPending] = useState(false);
 
   return {
-    isPending: false,
+    isPending,
     mutate: async (input: UpdateBlogPostInput): Promise<void> => {
-      await update({
-        id: input._id as BlogPostId,
-        title: input.title,
-        excerpt: input.excerpt,
-        content: input.content,
-        coverImage: input.coverImage,
-        tags: input.tags,
-        status: input.status,
-      });
+      setIsPending(true);
+      try {
+        await update({
+          id: input._id as BlogPostId,
+          title: input.title,
+          excerpt: input.excerpt,
+          content: input.content,
+          coverImage: input.coverImage,
+          tags: input.tags,
+          status: input.status,
+        });
+      } finally {
+        setIsPending(false);
+      }
     },
   };
 }
 
 export function useDeletePost() {
   const mutation = useMutation(api.blogs.remove);
+  const [isPending, setIsPending] = useState(false);
 
   return {
-    isPending: false,
+    isPending,
     mutate: async (id: string): Promise<boolean> => {
-      await mutation({ id: id as BlogPostId });
-      return true;
+      setIsPending(true);
+      try {
+        await mutation({ id: id as BlogPostId });
+        return true;
+      } finally {
+        setIsPending(false);
+      }
     },
   };
 }
