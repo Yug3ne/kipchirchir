@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import {
   Home,
@@ -16,13 +16,14 @@ import {
   Database,
   Smartphone,
   Globe,
-  Sun,
-  Moon,
   Menu,
   X,
   BookOpen,
 } from "lucide-react";
 import { Button, ButtonLink } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import type { Theme } from "@/hooks/use-theme";
+import { useTheme } from "@/hooks/use-theme";
 import {
   Card,
   CardContent,
@@ -211,34 +212,6 @@ const education = [
   },
 ];
 
-// Theme hook
-function useTheme() {
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("theme");
-      if (stored === "light" || stored === "dark") return stored;
-      return window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-    }
-    return "dark";
-  });
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
-
-  return { theme, toggleTheme };
-}
-
 // Animated text component
 function AnimatedText({
   text,
@@ -262,31 +235,6 @@ function AnimatedText({
   );
 }
 
-// Theme Toggle Button
-function ThemeToggle({
-  theme,
-  toggleTheme,
-}: {
-  theme: string;
-  toggleTheme: () => void;
-}) {
-  return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={toggleTheme}
-      className="rounded-xl"
-      aria-label="Toggle theme"
-    >
-      {theme === "dark" ? (
-        <Sun className="size-5 text-yellow-500" />
-      ) : (
-        <Moon className="size-5 text-slate-700" />
-      )}
-    </Button>
-  );
-}
-
 // Mobile Navigation
 function MobileNav({
   activeSection,
@@ -299,7 +247,7 @@ function MobileNav({
   activeSection: string;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  theme: string;
+  theme: Theme;
   toggleTheme: () => void;
   onLogoClick: () => void;
 }) {
@@ -390,7 +338,7 @@ function Sidebar({
   onLogoClick,
 }: {
   activeSection: string;
-  theme: string;
+  theme: Theme;
   toggleTheme: () => void;
   onLogoClick: () => void;
 }) {

@@ -23,7 +23,6 @@ import {
   Image,
   Minus,
   Sparkles,
-  Check,
   Loader2,
   LogOut,
   Shield,
@@ -46,7 +45,9 @@ import {
   type BlogPost,
   type CreateBlogPostInput,
 } from "@/lib/blog-types";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { useAuth } from "@/hooks/use-auth";
+import { useTheme } from "@/hooks/use-theme";
 
 // Markdown toolbar buttons
 const toolbarButtons = [
@@ -159,17 +160,18 @@ function PostList({
   onDelete: (id: string) => void;
   onNew: () => void;
 }) {
-  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const deletePost = useDeletePost();
 
-  const handleDelete = async (id: string) => {
-    if (deleteConfirm === id) {
-      await deletePost.mutate(id);
-      onDelete(id);
-      setDeleteConfirm(null);
-    } else {
-      setDeleteConfirm(id);
-      setTimeout(() => setDeleteConfirm(null), 3000);
+  const handleDelete = async (id: string, title: string) => {
+    if (window.confirm(`Delete "${title}"? This cannot be undone.`)) {
+      setIsDeleting(id);
+      try {
+        await deletePost.mutate(id);
+        onDelete(id);
+      } finally {
+        setIsDeleting(null);
+      }
     }
   };
 
@@ -274,15 +276,13 @@ function PostList({
                       <Edit3 className="size-4" />
                     </Button>
                     <Button
-                      variant={
-                        deleteConfirm === post._id ? "destructive" : "ghost"
-                      }
+                      variant="ghost"
                       size="icon-sm"
-                      onClick={() => handleDelete(post._id)}
-                      disabled={deletePost.isPending}
+                      onClick={() => handleDelete(post._id, post.title)}
+                      disabled={isDeleting === post._id}
                     >
-                      {deleteConfirm === post._id ? (
-                        <Check className="size-4" />
+                      {isDeleting === post._id ? (
+                        <Loader2 className="size-4 animate-spin" />
                       ) : (
                         <Trash2 className="size-4" />
                       )}
@@ -824,8 +824,9 @@ Happy writing!"
 export function AdminPage() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { posts, isLoading, refetch } = useAllBlogPosts();
-  const { user, isAuthenticated, signOut } = useAuth();
+  const { user, isAuthenticated, isLoading: isAuthLoading, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
+  const { posts, isLoading: isPostsLoading, refetch } = useAllBlogPosts();
 
   // Derive editingPostId directly from URL params (no state needed)
   const editingPostId = id === "new" ? "new" : (id ?? null);
@@ -845,7 +846,17 @@ export function AdminPage() {
 
   const handleSignOut = async () => {
     await signOut();
+    navigate("/login", { replace: true });
   };
+
+  // Show loading while checking auth
+  if (isAuthLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="size-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   // Redirect if not authenticated
   if (!isAuthenticated) {
@@ -892,7 +903,8 @@ export function AdminPage() {
               <ArrowLeft className="size-4 group-hover:-translate-x-1 transition-transform" />
               <span className="text-sm font-medium">View Blog</span>
             </Link>
-            <div className="flex items-center gap-3">
+             <div className="flex items-center gap-3">
+               <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
               <Badge variant="outline" className="gap-1.5 font-mono text-xs">
                 <Shield className="size-3" />
                 Admin
@@ -935,7 +947,7 @@ export function AdminPage() {
             ) : (
               <PostList
                 posts={posts}
-                isLoading={isLoading}
+                isLoading={isPostsLoading}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
                 onNew={handleNew}

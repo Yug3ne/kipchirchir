@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, Navigate } from "react-router";
 import {
   ArrowLeft,
   Mail,
@@ -14,12 +14,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
-import { useCurrentUser, storeUser } from "@/hooks/use-auth";
+import { useCurrentUser } from "@/hooks/use-auth";
 
 export function LoginPage() {
-  const navigate = useNavigate();
-  const { isAuthenticated } = useCurrentUser();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isAuthenticated, isLoading: isSessionLoading } = useCurrentUser();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [mode, setMode] = useState<"login" | "register">("login");
@@ -27,14 +26,24 @@ export function LoginPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
+  // Show loading while session is being checked
+  if (isSessionLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="size-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   // Redirect if already authenticated
   if (isAuthenticated) {
     return <Navigate to="/admin" replace />;
   }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setIsLoading(true);
+    setIsSubmitting(true);
 
     try {
       if (mode === "login") {
@@ -45,18 +54,8 @@ export function LoginPage() {
 
         if (result.error) {
           setError(result.error.message || "Invalid credentials");
-          setIsLoading(false);
+          setIsSubmitting(false);
           return;
-        }
-
-        // Store user in localStorage for persistence
-        if (result.data?.user) {
-          storeUser({
-            id: result.data.user.id,
-            name: result.data.user.name,
-            email: result.data.user.email,
-            image: result.data.user.image,
-          });
         }
       } else {
         const result = await authClient.signUp.email({
@@ -67,28 +66,19 @@ export function LoginPage() {
 
         if (result.error) {
           setError(result.error.message || "Registration failed");
-          setIsLoading(false);
+          setIsSubmitting(false);
           return;
-        }
-
-        // Store user in localStorage for persistence
-        if (result.data?.user) {
-          storeUser({
-            id: result.data.user.id,
-            name: result.data.user.name,
-            email: result.data.user.email,
-            image: result.data.user.image,
-          });
         }
       }
 
-      // Success - navigate to admin
-      navigate("/admin");
+      // Success - use hard navigation to ensure fresh auth state
+      // This is necessary because useSession doesn't update synchronously
+      // with cross-domain auth (crossDomainClient plugin)
+      window.location.replace("/admin");
     } catch (err) {
       setError("An unexpected error occurred");
       console.error(err);
-    } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -230,9 +220,9 @@ export function LoginPage() {
             <Button
               type="submit"
               className="w-full h-11 font-medium"
-              disabled={isLoading}
+              disabled={isSubmitting}
             >
-              {isLoading ? (
+              {isSubmitting ? (
                 <>
                   <Loader2 className="size-4 mr-2 animate-spin" />
                   {mode === "login" ? "Signing in..." : "Creating account..."}
