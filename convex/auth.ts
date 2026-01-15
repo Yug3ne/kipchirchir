@@ -8,6 +8,33 @@ import authConfig from "./auth.config";
 
 const siteUrl = process.env.SITE_URL!;
 
+// Build trusted origins list including www and non-www variants
+function buildTrustedOrigins(baseUrl: string): string[] {
+  const origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    baseUrl,
+  ];
+
+  // Add www/non-www variant to handle both cases
+  try {
+    const url = new URL(baseUrl);
+    if (url.hostname.startsWith("www.")) {
+      // Add non-www variant
+      url.hostname = url.hostname.slice(4);
+      origins.push(url.origin);
+    } else {
+      // Add www variant
+      url.hostname = `www.${url.hostname}`;
+      origins.push(url.origin);
+    }
+  } catch {
+    // Invalid URL, just use what we have
+  }
+
+  return origins;
+}
+
 // The component client has methods needed for integrating Convex with Better Auth,
 // as well as helper methods for general use.
 export const authComponent = createClient<DataModel>(components.betterAuth);
@@ -21,8 +48,8 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
       enabled: true,
       requireEmailVerification: false,
     },
-    // Allow requests from localhost during development
-    trustedOrigins: ["http://localhost:5173", "http://localhost:3000", siteUrl],
+    // Allow requests from localhost and production (www + non-www)
+    trustedOrigins: buildTrustedOrigins(siteUrl),
     plugins: [
       // The Convex plugin is required for Convex compatibility
       convex({ authConfig }),
