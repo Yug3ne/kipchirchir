@@ -126,17 +126,36 @@ export const listAll = query({
 export const getById = query({
   args: { id: v.id("blogPosts") },
   handler: async (ctx, args) => {
-    return await ctx.db.get(args.id);
+    const post = await ctx.db.get(args.id);
+    if (!post) return null;
+
+    // Check if user is admin - if so, return post regardless of status
+    try {
+      await requireAdmin(ctx);
+      return post;
+    } catch {
+      // Not admin - only return published posts
+      if (post.status !== "published") {
+        return null;
+      }
+      return post;
+    }
   },
 });
 
 export const getBySlug = query({
   args: { slug: v.string() },
   handler: async (ctx, args) => {
-    return await ctx.db
+    const post = await ctx.db
       .query("blogPosts")
       .withIndex("by_slug", (q) => q.eq("slug", args.slug))
       .first();
+
+    // Only return published posts to public users
+    if (post && post.status !== "published") {
+      return null;
+    }
+    return post;
   },
 });
 
