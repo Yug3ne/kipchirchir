@@ -10,11 +10,7 @@ const siteUrl = process.env.SITE_URL!;
 
 // Build trusted origins list including www and non-www variants
 function buildTrustedOrigins(baseUrl: string): string[] {
-  const origins = [
-    "http://localhost:5173",
-    "http://localhost:3000",
-    baseUrl,
-  ];
+  const origins = ["http://localhost:5173", "http://localhost:3000", baseUrl];
 
   // Add www/non-www variant to handle both cases
   try {
