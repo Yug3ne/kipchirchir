@@ -86,19 +86,8 @@ export function LoginPage() {
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       {/* Ambient Background */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-linear-to-br from-primary/10 via-transparent to-transparent rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-linear-to-tl from-chart-2/10 via-transparent to-transparent rounded-full blur-3xl" />
-        {/* Grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.02] dark:opacity-[0.04]"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, currentColor 1px, transparent 1px),
-              linear-gradient(to bottom, currentColor 1px, transparent 1px)
-            `,
-            backgroundSize: "48px 48px",
-          }}
-        />
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-chart-2/10 rounded-full blur-3xl" />
       </div>
 
       {/* Back to home */}
@@ -115,8 +104,8 @@ export function LoginPage() {
         <CardHeader className="text-center space-y-4 pb-2">
           {/* Logo */}
           <div className="mx-auto">
-            <div className="size-16 rounded-2xl bg-linear-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-2xl shadow-lg">
-              EK
+            <div className="size-16 rounded-2xl overflow-hidden shadow-lg">
+              <img src="/profile.png" alt="EK" className="size-full object-cover object-top" />
             </div>
           </div>
 

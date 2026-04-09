@@ -169,8 +169,8 @@ export function BlogPostPage() {
     <div className="min-h-screen bg-background">
       {/* Ambient Background */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-linear-to-bl from-primary/5 via-transparent to-transparent rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-linear-to-tr from-chart-2/5 via-transparent to-transparent rounded-full blur-3xl" />
+        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-chart-2/10 rounded-full blur-3xl" />
       </div>
 
       {/* Header */}
@@ -199,9 +199,9 @@ export function BlogPostPage() {
               </Button>
               <Link
                 to="/"
-                className="size-10 rounded-xl bg-linear-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-sm"
+                className="size-10 rounded-xl overflow-hidden"
               >
-                EK
+                <img src="/profile.png" alt="EK" className="size-full object-cover object-top" />
               </Link>
             </div>
           </div>
@@ -232,8 +232,8 @@ export function BlogPostPage() {
               {/* Meta */}
               <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
                 <span className="flex items-center gap-2">
-                  <div className="size-8 rounded-full bg-linear-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground text-xs font-bold">
-                    EK
+                  <div className="size-8 rounded-full overflow-hidden">
+                    <img src="/profile.png" alt="EK" className="size-full object-cover object-top" />
                   </div>
                   <span className="font-medium text-foreground">
                     Eugene Kipchirchir
@@ -270,8 +270,8 @@ export function BlogPostPage() {
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 {/* Author Card */}
                 <div className="flex items-center gap-4">
-                  <div className="size-14 rounded-xl bg-linear-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold">
-                    EK
+                  <div className="size-14 rounded-xl overflow-hidden">
+                    <img src="/profile.png" alt="EK" className="size-full object-cover object-top" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">

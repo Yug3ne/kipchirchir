@@ -19,6 +19,8 @@ import {
   Menu,
   X,
   BookOpen,
+  Layers,
+  Terminal,
 } from "lucide-react";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -32,9 +34,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
 // Navigation items
@@ -47,72 +46,140 @@ const navItems = [
   { id: "contact", label: "CONTACT", icon: Mail },
 ];
 
-// Skills data
+// Skills data (aligned with resume + day-to-day stack)
 const skills = {
   languages: [
+    "TypeScript",
+    "JavaScript",
     "Python",
+    "PHP",
     "SQL",
     "HTML5",
     "CSS3",
-    "JavaScript",
-    "TypeScript",
-    "PHP",
-    "Go (Learning)",
   ],
   frameworks: [
-    "Django",
-    "Laravel",
-    "ReactJS",
+    "Vue 3",
+    "React",
     "React Native",
     "Next.js",
     "Expo",
+    "Django",
+    "Laravel",
     "Tailwind CSS",
-    "Shadcn-UI",
+    "shadcn/ui",
   ],
-  tools: ["Git", "GitHub", "Postman", "VS Code", "Cursor", "Slack", "Webstorm"],
-  databases: ["PostgreSQL", "Neon", "Supabase"],
-  stateManagement: ["Zustand", "Context API", "Redux"],
+  stateAndData: [
+    "Pinia",
+    "TanStack Query",
+    "Zustand",
+    "Redux",
+    "Context API",
+    "GraphQL (Lighthouse)",
+  ],
+  databases: ["PostgreSQL", "Convex", "Supabase", "Neon"],
+  tools: [
+    "Git",
+    "Vite",
+    "Vitest",
+    "GitHub Actions",
+    "Postman",
+    "PostHog",
+    "VS Code",
+    "Cursor",
+  ],
 };
 
-// Experience data
+// Experience data (reverse chronological)
 const experiences = [
   {
-    company: "Cybasoft",
-    role: "Full-Stack Developer",
-    location: "Elkridge, MD - Remote",
-    period: "Jan 2025 - Sept 2025",
+    company: "Payd",
+    role: "Frontend Developer",
+    location: "Nairobi, Kenya",
+    period: "Jan 2026 – Present",
     highlights: [
-      "Contributed to Planrr, a mobile-first productivity platform built with Expo (React Native) and Laravel for managing group contributions, savings goals, tasks, and expenses",
-      "Built and maintained GraphQL APIs using Laravel Lighthouse for efficient data fetching and mutations",
-      "Developed core backend features including deadline tracking, status filtering, and multi-currency support",
-      "Collaborated with frontend developers to integrate backend logic into React Native mobile app, ensuring smooth UI/backend synchronization",
+      "Collaborate with the frontend team on a Vue 3 fintech PWA serving wallets and payments across 20+ African countries with multi-currency support",
+      "Contributed 30+ composables (exchange rates, amount input) to the shared codebase, powering real-time conversion and settlement logic",
+      "Helped integrate TanStack Query across 10+ data domains with cache invalidation and throttled refresh for API performance",
+      "Worked on JWT auth with refresh queuing and route guards alongside other engineers hardening the service layer",
+      "Contributed to a 300KB+ bundle reduction through dynamic imports, dependency cleanup, and replacing moment.js with date-fns",
+      "Implemented PostHog analytics with PII masking; wrote Vitest coverage for encryption and transaction utilities",
     ],
   },
   {
     company: "Virgil Africa",
     role: "Full-Stack Developer",
-    location: "Nairobi, Kenya - Hybrid",
-    period: "Feb 2025 - May 2025",
+    location: "Nairobi, Kenya",
+    period: "Feb 2025 – May 2025",
     highlights: [
-      "Optimized checkout process for eCommerce application, improving UX and reducing cart abandonment",
-      "Spearheaded frontend development of new client-facing application with end-to-end ownership",
-      "Implemented state management using Zustand for clean, lightweight global state handling",
-      "Assisted in configuring GitHub Actions for CI/CD deployment workflows",
+      "Spearheaded frontend for a new client-facing product: UI prototyping, component architecture, Zustand, and REST integration",
+      "Improved an eCommerce checkout flow with responsive React UI to reduce abandonment",
+      "Maintained React + Django client apps: paid down tech debt and shipped scalable UI upgrades",
+      "Configured GitHub Actions CI/CD for automated builds and deploys to a VPS",
+    ],
+  },
+  {
+    company: "Cybasoft",
+    role: "Full-Stack Developer",
+    location: "Elkridge, MD (Remote)",
+    period: "Oct 2024 – Oct 2025",
+    highlights: [
+      "Contributed to Planrr — Expo (React Native) and Laravel — for personal contributions and shared expenses",
+      "Built and maintained GraphQL APIs with Laravel Lighthouse for efficient reads/writes across money-movement flows",
+      "Delivered Laravel features (deadline tracking, status filters) and maintained legacy Django REST APIs",
+      "Collaborated on React Native integration to keep mobile state in sync with backend data",
     ],
   },
 ];
 
-// Projects data
+// Projects data (featured work + open source; GitHub: github.com/Yug3ne)
 const projects = [
+  {
+    title: "Payd Node SDK",
+    description:
+      "Open-source TypeScript SDK for the Payd payments API — collections (including M-Pesa STK Push) and payouts across 20+ African countries.",
+    tech: ["TypeScript", "Node.js", "Express"],
+    highlights: [
+      "Interactive test dashboard with live webhook monitoring",
+      "101-test automated regression suite for API behavior",
+    ],
+    github: "https://github.com/Yug3ne/payd-sdks",
+    live: "https://payd-sdks.vercel.app",
+    image: "/placeholder-payd-sdks.png",
+  },
+  {
+    title: "Sauti Link",
+    description:
+      "Civic governance platform connecting citizens and officials — bilingual bill context and a real-time Convex backend for trustworthy voting flows.",
+    tech: ["React 19", "Convex", "TypeScript", "shadcn/ui"],
+    highlights: [
+      "USSD simulator path for feature-phone access",
+      "Engagement analytics dashboards for organizers",
+    ],
+    github: "https://github.com/Yug3ne/sautilink",
+    live: "https://sautilink.vercel.app",
+    image: "/placeholder-sautilink.png",
+  },
+  {
+    title: "ScanTiko",
+    description:
+      "Event ticket scanner — custom camera overlay and instant API checks — deployed live for high-traffic tournaments.",
+    tech: ["React Native", "Expo"],
+    highlights: [
+      "2,000+ tickets validated at Kabeberi 7s with resilient offline behavior",
+      "Real-time verification and operator-friendly scanning UX",
+    ],
+    github: "https://github.com/Yug3ne/ScanTiko",
+    live: null,
+    image: "/placeholder-scantiko.png",
+  },
   {
     title: "Planrr",
     description:
-      "An all-in-one productivity mobile app for managing group contributions, savings goals, tasks, expenses, and event planning with real-time tracking and multi-currency support.",
+      "Mobile-first app for group contributions, savings, shared expenses, and household money workflows — production app on major stores.",
     tech: ["React Native", "Expo", "Laravel", "GraphQL", "PostgreSQL"],
     highlights: [
-      "Available on iOS App Store and Google Play Store",
-      "Features group contributions, savings goals, expense tracking, and task management",
-      "Multi-currency support and PDF reporting capabilities",
+      "Shipped on iOS and Android with multi-currency and reporting",
+      "GraphQL + Laravel backend powering Planrr’s collaborative money features",
     ],
     github: null,
     live: "https://planrr.io",
@@ -121,7 +188,7 @@ const projects = [
   {
     title: "Green Ledger",
     description:
-      "AI-powered investment platform connecting energy innovators with investors through intelligent project assessment and matching.",
+      "AI-assisted investment flow matching energy innovators with investors — structured submissions and scored evaluations.",
     tech: [
       "Next.js",
       "TypeScript",
@@ -130,85 +197,37 @@ const projects = [
       "PostgreSQL",
     ],
     highlights: [
-      "Multi-step submission forms with 25+ energy-specific parameters",
-      "AI-powered evaluation system with quantitative scores",
-      "Role-based access control with Better Auth",
+      "Deep multi-step forms tuned to energy vertical data",
+      "Role-based access with Better Auth",
     ],
     github: "https://github.com/Yug3ne/green-ledger",
     live: null,
     image: "/placeholder-greenledger.png",
   },
   {
-    title: "ScanTiko",
+    title: "Portfolio & Blog",
     description:
-      "Mobile application for real-time event ticket validation and attendee management deployed at Kabeberi 7s rugby tournament.",
-    tech: ["React Native", "Expo", "NativeWind"],
+      "This site — React, Vite, Tailwind v4, Convex, and Better Auth for a fast portfolio with a live admin-backed blog.",
+    tech: ["React", "TypeScript", "Vite", "Convex", "Tailwind CSS"],
     highlights: [
-      "Processed over 2,000 tickets with real-time API integration",
-      "Custom scanning overlay with automatic ticket ID extraction",
-      "Offline resilience with dark theme optimization",
+      "Reactive Convex data for published posts",
+      "Production deploy with polished marketing sections",
     ],
-    github: "https://github.com/Yug3ne/ScanTiko",
-    live: null,
-    image: "/placeholder-scantiko.png",
-  },
-  {
-    title: "InkSpire",
-    description:
-      "A book review application that enables users to get recommendations based on community reviews and create genre-based reading communities.",
-    tech: ["Next.js", "TypeScript", "Tailwind CSS"],
-    highlights: [
-      "Community-driven book recommendations and reviews",
-      "Genre-based community building features",
-      "Modern responsive design with Next.js",
-    ],
-    github: "https://github.com/Yug3ne/InkSpire",
-    live: null,
-    image: "/placeholder-inkspire.png",
-  },
-  {
-    title: "KeepTime",
-    description:
-      "A progressive web app (PWA) offline time tracker built with Vue.js and Dexie for local-first data persistence.",
-    tech: ["Vue.js", "Dexie", "PWA", "IndexedDB"],
-    highlights: [
-      "Offline-first architecture with IndexedDB",
-      "Progressive Web App capabilities",
-      "Local data persistence with Dexie",
-    ],
-    github: "https://github.com/Yug3ne/KeepTime",
-    live: null,
-    image: "/placeholder-keeptime.png",
-  },
-  {
-    title: "EcoRide",
-    description:
-      "A ride-sharing or transportation application built with TypeScript for sustainable urban mobility solutions.",
-    tech: ["TypeScript", "React", "Node.js"],
-    highlights: [
-      "Sustainable transportation platform",
-      "Full-stack TypeScript implementation",
-      "Modern user interface design",
-    ],
-    github: "https://github.com/Yug3ne/ecoride",
-    live: null,
-    image: "/placeholder-ecoride.png",
+    github: "https://github.com/Yug3ne/kipchirchir",
+    live: "https://kipchirchirkoech.co.ke",
+    image: "/placeholder-portfolio.png",
   },
 ];
 
 // Education data
 const education = [
   {
-    school: "African Leadership University",
-    degree: "BSc (Hons) Software Engineering",
-    location: "Rwanda",
-    period: "Sept 2024 - Dec 2027",
-  },
-  {
     school: "Moringa School",
     degree: "Certificate of Software Engineering",
-    location: "Nairobi",
-    period: "Dec 2023 - Aug 2024",
+    location: "Nairobi, Kenya",
+    period: "Dec 2023 – Aug 2024",
+    detail:
+      "Intensive software engineering, web development, algorithms & data structures, and agile delivery — full-stack team projects with Git, clean code, and TDD.",
   },
 ];
 
@@ -257,9 +276,13 @@ function MobileNav({
       <header className="fixed top-0 left-0 right-0 h-16 bg-card/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 md:hidden">
         <button
           onClick={onLogoClick}
-          className="size-10 rounded-xl bg-linear-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-lg"
+          className="size-10 rounded-xl overflow-hidden"
         >
-          EK
+          <img
+            src="/profile.png"
+            alt="EK"
+            className="size-full object-cover object-top"
+          />
         </button>
         <div className="flex items-center gap-2">
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
@@ -303,7 +326,7 @@ function MobileNav({
                   <item.icon className="size-6" />
                   {item.label}
                 </a>
-              )
+              ),
             )}
             <div className="flex gap-4 mt-8">
               <a
@@ -348,10 +371,14 @@ function Sidebar({
       <div className="mb-8">
         <button
           onClick={onLogoClick}
-          className="size-12 rounded-xl bg-linear-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-xl hover:scale-105 transition-transform cursor-pointer"
+          className="size-12 rounded-xl overflow-hidden hover:scale-105 transition-transform cursor-pointer"
           aria-label="Logo"
         >
-          EK
+          <img
+            src="/profile.png"
+            alt="EK"
+            className="size-full object-cover object-top"
+          />
         </button>
       </div>
 
@@ -387,7 +414,7 @@ function Sidebar({
                 <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
               )}
             </a>
-          )
+          ),
         )}
       </nav>
 
@@ -419,6 +446,86 @@ function Sidebar({
   );
 }
 
+// Mini IDE-style preview (static snippet — not a live sandbox)
+function HeroCodePreview() {
+  return (
+    <div
+      className="w-full rounded-xl border border-border bg-card shadow-lg shadow-black/5 dark:shadow-black/20 ring-1 ring-border/60 overflow-hidden"
+      role="region"
+      aria-label="Example code from this portfolio’s stack"
+    >
+      <div className="flex items-center gap-2 px-3 py-2.5 border-b border-border bg-muted/70">
+        <div className="flex gap-1.5" aria-hidden>
+          <span className="size-2 rounded-full bg-[#ff5f56]" />
+          <span className="size-2 rounded-full bg-[#febc2e]" />
+          <span className="size-2 rounded-full bg-[#28c840]" />
+        </div>
+        <Terminal className="size-3.5 text-muted-foreground shrink-0 ml-0.5" />
+        <span className="ml-auto font-mono text-[10px] text-muted-foreground truncate">
+          use-blog.ts
+        </span>
+      </div>
+      <pre className="p-3.5 sm:p-4 lg:p-4 text-[10px] sm:text-[11px] lg:text-xs leading-relaxed font-mono text-left overflow-x-auto">
+        <code>
+          <span className="text-violet-600 dark:text-violet-400">import</span>
+          <span className="text-muted-foreground"> {"{"} </span>
+          <span className="text-sky-700 dark:text-sky-300"> useQuery </span>
+          <span className="text-muted-foreground">{"}"} </span>
+          <span className="text-violet-600 dark:text-violet-400"> from</span>
+          <span className="text-emerald-700 dark:text-emerald-400">
+            {" "}
+            &quot;convex/react&quot;
+          </span>
+          <span className="text-muted-foreground">;</span>
+          {"\n"}
+          <span className="text-violet-600 dark:text-violet-400">import</span>
+          <span className="text-muted-foreground"> {"{"} </span>
+          <span className="text-sky-700 dark:text-sky-300"> api </span>
+          <span className="text-muted-foreground">{"}"} </span>
+          <span className="text-violet-600 dark:text-violet-400"> from</span>
+          <span className="text-emerald-700 dark:text-emerald-400">
+            {" "}
+            &quot;../../convex/_generated/api&quot;
+          </span>
+          <span className="text-muted-foreground">;</span>
+          {"\n\n"}
+          <span className="text-violet-600 dark:text-violet-400">
+            export function
+          </span>
+          <span className="text-sky-700 dark:text-sky-300"> useBlogPosts</span>
+          <span className="text-muted-foreground">() {"{"}</span>
+          {"\n  "}
+          <span className="text-violet-600 dark:text-violet-400">const</span>
+          <span className="text-muted-foreground"> posts </span>
+          <span className="text-violet-600 dark:text-violet-400">=</span>
+          <span className="text-muted-foreground"> </span>
+          <span className="text-sky-700 dark:text-sky-300">useQuery</span>
+          <span className="text-muted-foreground">(api.blogs.listPublished);</span>
+          {"\n  "}
+          <span className="text-violet-600 dark:text-violet-400">return</span>
+          <span className="text-muted-foreground"> {"{"}</span>
+          {"\n    "}
+          <span className="text-muted-foreground">posts,</span>
+          {"\n    "}
+          <span className="text-muted-foreground">
+            isLoading: posts{" "}
+          </span>
+          <span className="text-violet-600 dark:text-violet-400">===</span>
+          <span className="text-muted-foreground"> undefined,</span>
+          {"\n  "}
+          <span className="text-muted-foreground">{"};"}</span>
+          {"\n"}
+          <span className="text-muted-foreground">{"}"}</span>
+        </code>
+      </pre>
+      <p className="px-3 py-2 text-[10px] text-muted-foreground border-t border-border bg-muted/30 font-mono">
+        Excerpt from this repo — Convex keeps the blog list live; mapping
+        omitted for space.
+      </p>
+    </div>
+  );
+}
+
 // Hero Section
 function HeroSection() {
   return (
@@ -427,30 +534,17 @@ function HeroSection() {
       aria-label="Introduction"
       itemScope
       itemType="https://schema.org/Person"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 md:pt-0"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 pb-16 md:pt-0 md:pb-0"
     >
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-linear-to-br from-background via-background to-primary/5" />
-
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 right-1/4 size-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div
-          className="absolute bottom-1/4 left-1/3 size-64 bg-chart-2/10 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: "1s" }}
-        />
-      </div>
-
-      <div className="container mx-auto px-4 md:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Text Content */}
-          <div className="space-y-4 md:space-y-6 text-center lg:text-left">
-            <header className="space-y-2">
-              <p className="text-muted-foreground text-base md:text-lg tracking-wide">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <div className="space-y-6 text-center lg:text-left">
+            <header className="space-y-3">
+              <p className="text-muted-foreground text-sm md:text-base tracking-widest uppercase font-medium">
                 Hello, I'm
               </p>
               <h1
-                className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight"
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight"
                 itemProp="name"
               >
                 <AnimatedText text="Eugene" className="text-foreground" />
@@ -460,25 +554,25 @@ function HeroSection() {
             </header>
 
             <p
-              className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-light"
+              className="text-lg md:text-xl text-muted-foreground font-light"
               itemProp="jobTitle"
             >
-              Full-Stack Developer
+              Frontend &amp; Full-Stack Developer
             </p>
 
             <p
-              className="text-muted-foreground max-w-lg mx-auto lg:mx-0 text-base md:text-lg leading-relaxed"
+              className="text-muted-foreground max-w-lg mx-auto lg:mx-0 text-sm md:text-base leading-relaxed"
               itemProp="description"
             >
-              Building scalable applications with React, Django, Laravel, and
-              Next.js. A collaborative team player and leader, passionate about
-              continuous learning and creating seamless user experiences.
+              I build web and mobile software with Vue, React, and full-stack
+              tools. I work well in teams, enjoy learning from others, and care
+              about maintainable code and a clear user experience.
             </p>
 
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
               <ButtonLink size="lg" className="gap-2" href="#contact">
                 <Mail className="size-4" />
-                Contact Me
+                Get in Touch
               </ButtonLink>
               <ButtonLink
                 size="lg"
@@ -491,60 +585,29 @@ function HeroSection() {
               </ButtonLink>
             </div>
 
-            {/* Quick Stats */}
-            <div className="flex gap-6 md:gap-8 pt-6 md:pt-8 justify-center lg:justify-start">
-              <div className="text-center lg:text-left">
-                <p className="text-2xl md:text-3xl font-bold text-primary">
-                  2+
-                </p>
-                <p className="text-xs md:text-sm text-muted-foreground">
-                  Years Experience
-                </p>
-              </div>
-              <div className="text-center lg:text-left">
-                <p className="text-2xl md:text-3xl font-bold text-primary">
-                  5+
-                </p>
-                <p className="text-xs md:text-sm text-muted-foreground">
-                  Projects Completed
-                </p>
-              </div>
-              <div className="text-center lg:text-left">
-                <p className="text-2xl md:text-3xl font-bold text-primary">
-                  3+
-                </p>
-                <p className="text-xs md:text-sm text-muted-foreground">
-                  Companies Worked
-                </p>
-              </div>
+            <div className="flex gap-8 pt-6 justify-center lg:justify-start">
+              {[
+                { value: "2+", label: "Years" },
+                { value: "60+", label: "Repos" },
+                { value: "3", label: "Companies" },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center lg:text-left">
+                  <p className="text-2xl font-bold text-primary">
+                    {stat.value}
+                  </p>
+                  <p className="text-xs text-muted-foreground">{stat.label}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Hero Image */}
-          <div className="relative hidden lg:block">
-            <div className="relative">
-              {/* Decorative elements */}
-              <div className="absolute -inset-4 bg-linear-to-br from-primary/20 to-chart-2/20 rounded-3xl blur-2xl" />
-              <div className="absolute -top-8 -right-8 size-32 border-2 border-primary/30 rounded-2xl rotate-12" />
-              <div className="absolute -bottom-8 -left-8 size-24 border-2 border-chart-2/30 rounded-xl -rotate-12" />
-
-              {/* Profile Image */}
-              <figure className="relative aspect-3/4 rounded-3xl bg-linear-to-br from-muted to-muted/50 border border-border overflow-hidden">
-                <img
-                  src="/profile.png"
-                  alt="Eugene Kipchirchir Koech - Full-Stack Developer specializing in React, Django, and Laravel"
-                  itemProp="image"
-                  loading="eager"
-                  className="w-full h-[115%] object-cover object-top"
-                />
-              </figure>
-            </div>
+          <div className="w-full max-w-lg mx-auto lg:max-w-none">
+            <HeroCodePreview />
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
-          <ChevronDown className="size-8 text-muted-foreground" />
+          <ChevronDown className="size-8 text-muted-foreground/40" />
         </div>
       </div>
     </section>
@@ -556,6 +619,7 @@ function AboutSection() {
   const skillCategories = [
     { title: "Languages", icon: Code2, items: skills.languages },
     { title: "Frameworks", icon: Globe, items: skills.frameworks },
+    { title: "State & Data", icon: Layers, items: skills.stateAndData },
     { title: "Databases", icon: Database, items: skills.databases },
     { title: "Tools", icon: Smartphone, items: skills.tools },
   ];
@@ -567,8 +631,7 @@ function AboutSection() {
       className="py-16 md:py-24 relative"
     >
       <div className="container mx-auto px-4 md:px-8">
-        <article className="max-w-6xl mx-auto">
-          {/* Section Header */}
+        <div className="max-w-5xl mx-auto">
           <header className="text-center mb-12 md:mb-16">
             <h2
               id="about-heading"
@@ -576,107 +639,90 @@ function AboutSection() {
             >
               About <span className="text-primary">Me</span>
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-base">
-              A passionate full-stack developer with expertise in building
-              modern web and mobile applications
-            </p>
           </header>
 
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-            {/* Bio */}
-            <div className="space-y-4 md:space-y-6">
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                I'm a Full-Stack Developer currently pursuing my BSc in Software
-                Engineering at African Leadership University. With a strong
-                foundation in frontend development and hands-on experience at
-                companies like Cybasoft and Virgil Africa, I specialize in
-                building scalable applications using modern technologies.
+          <div className="grid lg:grid-cols-5 gap-10 lg:gap-14">
+            {/* Bio — wider column */}
+            <div className="lg:col-span-3 space-y-5">
+              <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                I&apos;m based in Nairobi and work on the frontend team at Payd,
+                where we build a Vue 3 fintech app for wallets and payments.
+                It&apos;s a collaborative environment — I pair with designers,
+                product, and backend engineers day to day.
               </p>
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                I thrive in collaborative environments and enjoy both
-                contributing as a team player and stepping up to lead when
-                needed. I'm always eager to learn new technologies — currently
-                expanding into backend development with{" "}
-                <span className="text-primary font-medium">Golang</span> to
-                strengthen my full-stack capabilities.
+              <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                Earlier I worked full-stack at Virgil Africa (React, Django,
+                CI/CD) and Cybasoft on Planrr (Expo, Laravel, GraphQL).
+                I&apos;m glad to help wherever a feature needs it — UI, APIs,
+                or performance — as part of a wider team.
               </p>
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                My journey began at Moringa School where I gained a solid
-                foundation in software engineering practices. Since then, I've
-                worked on diverse projects ranging from eCommerce platforms to
-                productivity apps like Planrr.
+              <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                Moringa School is where I picked up solid habits — agile
+                delivery, testing, and everyday collaboration in Git — that
+                still guide how I approach my work.
               </p>
-
-              {/* Contact Info */}
-              <div className="space-y-3 pt-4">
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <MapPin className="size-5 text-primary shrink-0" />
-                  <span>Rwanda / Kenya</span>
-                </div>
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <Phone className="size-5 text-primary shrink-0" />
-                  <span>(+254) 708676540</span>
-                </div>
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <Mail className="size-5 text-primary shrink-0" />
-                  <span className="break-all">eugenekoech9@gmail.com</span>
-                </div>
-              </div>
 
               {/* Education */}
-              <div className="pt-6">
-                <h3 className="text-lg md:text-xl font-semibold mb-4">
+              <div className="pt-4">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground mb-3">
                   Education
                 </h3>
-                <div className="space-y-4">
-                  {education.map((edu, i) => (
-                    <div key={i} className="border-l-2 border-primary/30 pl-4">
-                      <h4 className="font-medium text-sm md:text-base">
-                        {edu.school}
-                      </h4>
-                      <p className="text-muted-foreground text-xs md:text-sm">
-                        {edu.degree}
+                {education.map((edu, i) => (
+                  <div key={i} className="border-l-2 border-primary/30 pl-4">
+                    <p className="font-medium text-sm">{edu.school}</p>
+                    <p className="text-muted-foreground text-xs">
+                      {edu.degree} · {edu.period}
+                    </p>
+                    {"detail" in edu && edu.detail ? (
+                      <p className="text-muted-foreground text-xs mt-1.5 leading-relaxed">
+                        {edu.detail}
                       </p>
-                      <p className="text-muted-foreground/60 text-xs">
-                        {edu.period} • {edu.location}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+
+              {/* Contact details */}
+              <div className="flex flex-wrap gap-x-6 gap-y-2 pt-4 text-sm text-muted-foreground">
+                <span className="flex items-center gap-2">
+                  <MapPin className="size-4 text-primary" />
+                  Nairobi, Kenya
+                </span>
+                <span className="flex items-center gap-2">
+                  <Mail className="size-4 text-primary" />
+                  eugenekoech9@gmail.com
+                </span>
+                <span className="flex items-center gap-2">
+                  <Phone className="size-4 text-primary" />
+                  (+254) 708676540
+                </span>
               </div>
             </div>
 
-            {/* Skills Grid */}
-            <div className="grid gap-4">
+            {/* Skills — narrower column */}
+            <div className="lg:col-span-2 space-y-3">
               {skillCategories.map((category) => (
-                <Card
-                  key={category.title}
-                  className="bg-card/50 backdrop-blur-sm"
-                >
-                  <CardHeader className="pb-3">
-                    <CardTitle className="flex items-center gap-2 text-sm md:text-base">
-                      <category.icon className="size-4 md:size-5 text-primary" />
-                      {category.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                      {category.items.map((skill) => (
-                        <Badge
-                          key={skill}
-                          variant="secondary"
-                          className="text-xs"
-                        >
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                <div key={category.title}>
+                  <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-foreground mb-2">
+                    <category.icon className="size-3.5 text-primary" />
+                    {category.title}
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {category.items.map((skill) => (
+                      <Badge
+                        key={skill}
+                        variant="secondary"
+                        className="text-xs font-normal"
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
-        </article>
+        </div>
       </div>
     </section>
   );
@@ -691,8 +737,7 @@ function ExperienceSection() {
       className="py-16 md:py-24 bg-muted/30"
     >
       <div className="container mx-auto px-4 md:px-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Section Header */}
+        <div className="max-w-3xl mx-auto">
           <header className="text-center mb-12 md:mb-16">
             <h2
               id="experience-heading"
@@ -701,83 +746,58 @@ function ExperienceSection() {
               Work <span className="text-primary">Experience</span>
             </h2>
             <p className="text-muted-foreground text-sm md:text-base">
-              My professional journey and contributions to various organizations
+              Places I've contributed and what I worked on
             </p>
           </header>
 
-          {/* Timeline */}
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-1/2" />
+          <div className="relative pl-6 md:pl-8">
+            <div
+              className="absolute left-0 top-2 bottom-2 w-px bg-border"
+              aria-hidden
+            />
 
-            {experiences.map((exp, i) => (
-              <div
-                key={i}
-                className={`relative flex flex-col md:flex-row gap-4 md:gap-8 mb-8 md:mb-12 ${
-                  i % 2 === 0 ? "md:flex-row-reverse" : ""
-                }`}
-              >
-                {/* Timeline dot */}
-                <div className="absolute left-4 md:left-1/2 top-0 size-4 rounded-full bg-primary md:-translate-x-1/2 z-10" />
-
-                {/* Content */}
-                <div
-                  className={`ml-10 md:ml-0 md:w-1/2 ${
-                    i % 2 === 0 ? "md:pl-12" : "md:pr-12 md:text-right"
-                  }`}
-                >
-                  <Card className="bg-card/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                    <CardHeader>
-                      <div
-                        className={`flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 ${
-                          i % 2 === 0 ? "" : "md:flex-row-reverse"
-                        }`}
-                      >
-                        <div className={i % 2 === 0 ? "" : "md:text-right"}>
-                          <CardTitle className="text-lg md:text-xl">
-                            {exp.company}
-                          </CardTitle>
-                          <CardDescription>{exp.role}</CardDescription>
-                        </div>
-                        <Badge
-                          variant="outline"
-                          className="shrink-0 w-fit text-xs"
-                        >
-                          {exp.period}
-                        </Badge>
+            <div className="space-y-8 md:space-y-10">
+              {experiences.map((exp, i) => (
+                <div key={i} className="relative">
+                  <div
+                    className="absolute -left-6 md:-left-8 top-1.5 size-3 rounded-full bg-primary ring-4 ring-background"
+                    aria-hidden
+                  />
+                  <div className="space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                      <div>
+                        <h3 className="text-lg font-semibold text-foreground">
+                          {exp.role}
+                        </h3>
+                        <p className="text-sm text-primary font-medium">
+                          {exp.company}
+                          <span className="text-muted-foreground font-normal">
+                            {" · "}
+                            {exp.location}
+                          </span>
+                        </p>
                       </div>
-                      <p
-                        className={`text-xs md:text-sm text-muted-foreground flex items-center gap-1 mt-2 ${
-                          i % 2 === 0 ? "" : "md:justify-end"
-                        }`}
+                      <Badge
+                        variant="outline"
+                        className="shrink-0 w-fit text-xs mt-1 sm:mt-0"
                       >
-                        <MapPin className="size-3" />
-                        {exp.location}
-                      </p>
-                    </CardHeader>
-                    <CardContent>
-                      <ul
-                        className={`space-y-2 text-xs md:text-sm text-muted-foreground ${
-                          i % 2 === 0 ? "" : "md:text-right"
-                        }`}
-                      >
-                        {exp.highlights.map((highlight, j) => (
-                          <li
-                            key={j}
-                            className={`flex gap-2 ${
-                              i % 2 === 0 ? "" : "md:flex-row-reverse"
-                            }`}
-                          >
-                            <span className="text-primary shrink-0">•</span>
-                            <span>{highlight}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
+                        {exp.period}
+                      </Badge>
+                    </div>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      {exp.highlights.map((highlight, j) => (
+                        <li key={j} className="flex gap-2.5">
+                          <span className="text-primary mt-1.5 shrink-0">
+                            <span className="block size-1.5 rounded-full bg-primary/60" />
+                          </span>
+                          <span>{highlight}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -794,8 +814,7 @@ function ProjectsSection() {
       className="py-16 md:py-24"
     >
       <div className="container mx-auto px-4 md:px-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Section Header */}
+        <div className="max-w-5xl mx-auto">
           <header className="text-center mb-12 md:mb-16">
             <h2
               id="projects-heading"
@@ -804,91 +823,71 @@ function ProjectsSection() {
               Featured <span className="text-primary">Projects</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-base">
-              A selection of projects I've worked on, showcasing my skills in
-              full-stack development
+              Open source work and side projects I've built or contributed to
             </p>
           </header>
 
-          {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {projects.map((project, i) => (
               <Card
                 key={i}
-                className="group overflow-hidden bg-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300"
+                className="group flex flex-col bg-card hover:shadow-lg transition-shadow duration-300"
               >
-                {/* Project Image */}
-                <div className="aspect-video bg-linear-to-br from-muted to-muted/50 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-chart-2/10" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <FolderOpen className="size-12 md:size-16 text-muted-foreground/50 mx-auto mb-2" />
-                      <p className="text-muted-foreground/50 text-xs md:text-sm">
-                        Project Image
-                      </p>
+                <CardHeader className="pb-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <CardTitle className="text-base font-semibold group-hover:text-primary transition-colors leading-snug">
+                      {project.title}
+                    </CardTitle>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-foreground transition-colors p-1"
+                          aria-label={`${project.title} source code`}
+                        >
+                          <Github className="size-4" />
+                        </a>
+                      )}
+                      {project.live && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-foreground transition-colors p-1"
+                          aria-label={`${project.title} live demo`}
+                        >
+                          <ExternalLink className="size-4" />
+                        </a>
+                      )}
                     </div>
                   </div>
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                    {project.github && (
-                      <ButtonLink
-                        size="sm"
-                        variant="outline"
-                        className="gap-2"
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Github className="size-4" />
-                        Code
-                      </ButtonLink>
-                    )}
-                    {project.live && (
-                      <ButtonLink
-                        size="sm"
-                        className="gap-2"
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink className="size-4" />
-                        Live
-                      </ButtonLink>
-                    )}
-                  </div>
-                </div>
-
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base md:text-xl group-hover:text-primary transition-colors">
-                    {project.title}
-                  </CardTitle>
-                  <CardDescription className="text-xs md:text-sm line-clamp-2">
+                  <CardDescription className="text-xs leading-relaxed line-clamp-3">
                     {project.description}
                   </CardDescription>
                 </CardHeader>
 
-                <CardContent className="space-y-3 md:space-y-4">
-                  {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-1.5 md:gap-2">
+                <CardContent className="mt-auto space-y-3 pt-0">
+                  <ul className="space-y-1.5 text-xs text-muted-foreground">
+                    {project.highlights.map((highlight, j) => (
+                      <li key={j} className="flex gap-2">
+                        <span className="text-primary shrink-0 mt-0.5">→</span>
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="flex flex-wrap gap-1.5 pt-1">
                     {project.tech.map((tech) => (
                       <Badge
                         key={tech}
                         variant="secondary"
-                        className="text-[10px] md:text-xs"
+                        className="text-[10px]"
                       >
                         {tech}
                       </Badge>
                     ))}
                   </div>
-
-                  {/* Highlights */}
-                  <ul className="space-y-1 text-xs md:text-sm text-muted-foreground">
-                    {project.highlights.slice(0, 2).map((highlight, j) => (
-                      <li key={j} className="flex gap-2">
-                        <span className="text-primary">→</span>
-                        <span className="line-clamp-1">{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </CardContent>
               </Card>
             ))}
@@ -901,6 +900,35 @@ function ProjectsSection() {
 
 // Contact Section
 function ContactSection() {
+  const links = [
+    {
+      icon: Mail,
+      label: "Email",
+      value: "eugenekoech9@gmail.com",
+      href: "mailto:eugenekoech9@gmail.com",
+    },
+    {
+      icon: Phone,
+      label: "Phone",
+      value: "(+254) 708676540",
+      href: "tel:+254708676540",
+    },
+    {
+      icon: Linkedin,
+      label: "LinkedIn",
+      value: "eugenekoech9",
+      href: "https://www.linkedin.com/in/eugenekoech9/",
+      external: true,
+    },
+    {
+      icon: Github,
+      label: "GitHub",
+      value: "Yug3ne",
+      href: "https://github.com/Yug3ne",
+      external: true,
+    },
+  ];
+
   return (
     <section
       id="contact"
@@ -908,169 +936,38 @@ function ContactSection() {
       className="py-16 md:py-24 bg-muted/30"
     >
       <div className="container mx-auto px-4 md:px-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Section Header */}
-          <header className="text-center mb-12 md:mb-16">
+        <div className="max-w-2xl mx-auto text-center">
+          <header className="mb-10">
             <h2
               id="contact-heading"
               className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
             >
               Get In <span className="text-primary">Touch</span>
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-base">
-              I'm always open to new opportunities and collaborations. Feel free
-              to reach out!
+            <p className="text-muted-foreground text-sm md:text-base">
+              Open to opportunities and collaborations — feel free to reach out
+              through any channel.
             </p>
           </header>
 
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-            {/* Contact Info */}
-            <div className="space-y-6 md:space-y-8">
-              <div>
-                <h3 className="text-xl md:text-2xl font-semibold mb-4">
-                  Let's talk
-                </h3>
-                <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                  Whether you have a project in mind, want to discuss potential
-                  opportunities, or just want to connect — I'd love to hear from
-                  you.
-                </p>
-              </div>
-
-              <div className="space-y-3 md:space-y-4">
-                <a
-                  href="mailto:eugenekoech9@gmail.com"
-                  className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-card/50 hover:bg-card transition-colors group"
-                >
-                  <div className="size-10 md:size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors shrink-0">
-                    <Mail className="size-4 md:size-5 text-primary" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs md:text-sm text-muted-foreground">
-                      Email
-                    </p>
-                    <p className="font-medium text-sm md:text-base truncate">
-                      eugenekoech9@gmail.com
-                    </p>
-                  </div>
-                </a>
-
-                <a
-                  href="tel:+254708676540"
-                  className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-card/50 hover:bg-card transition-colors group"
-                >
-                  <div className="size-10 md:size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors shrink-0">
-                    <Phone className="size-4 md:size-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-xs md:text-sm text-muted-foreground">
-                      Phone
-                    </p>
-                    <p className="font-medium text-sm md:text-base">
-                      (+254) 708676540
-                    </p>
-                  </div>
-                </a>
-
-                <a
-                  href="https://www.linkedin.com/in/eugenekoech9/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-card/50 hover:bg-card transition-colors group"
-                >
-                  <div className="size-10 md:size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors shrink-0">
-                    <Linkedin className="size-4 md:size-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-xs md:text-sm text-muted-foreground">
-                      LinkedIn
-                    </p>
-                    <p className="font-medium text-sm md:text-base">
-                      eugenekoech9
-                    </p>
-                  </div>
-                </a>
-
-                <a
-                  href="https://github.com/Yug3ne"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-card/50 hover:bg-card transition-colors group"
-                >
-                  <div className="size-10 md:size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors shrink-0">
-                    <Github className="size-4 md:size-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-xs md:text-sm text-muted-foreground">
-                      GitHub
-                    </p>
-                    <p className="font-medium text-sm md:text-base">Yug3ne</p>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            {/* Contact Form */}
-            <Card className="bg-card/80 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle className="text-base md:text-lg">
-                  Send a message
-                </CardTitle>
-                <CardDescription className="text-xs md:text-sm">
-                  Fill out the form below and I'll get back to you soon.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name" className="text-xs md:text-sm">
-                        Name
-                      </Label>
-                      <Input
-                        id="name"
-                        placeholder="Your name"
-                        className="text-sm"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="text-xs md:text-sm">
-                        Email
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="your@email.com"
-                        className="text-sm"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="subject" className="text-xs md:text-sm">
-                      Subject
-                    </Label>
-                    <Input
-                      id="subject"
-                      placeholder="What's this about?"
-                      className="text-sm"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="message" className="text-xs md:text-sm">
-                      Message
-                    </Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Your message..."
-                      className="min-h-24 md:min-h-32 text-sm"
-                    />
-                  </div>
-                  <Button type="submit" className="w-full" size="lg">
-                    Send Message
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {links.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target={"external" in link ? "_blank" : undefined}
+                rel={"external" in link ? "noopener noreferrer" : undefined}
+                className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:border-primary/30 hover:shadow-md transition-all group text-left"
+              >
+                <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-colors shrink-0">
+                  <link.icon className="size-4 text-primary" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-muted-foreground">{link.label}</p>
+                  <p className="text-sm font-medium truncate">{link.value}</p>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </div>
@@ -1156,7 +1053,7 @@ export function App() {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     navItems.forEach((item) => {

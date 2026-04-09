@@ -768,7 +768,7 @@ Happy writing!"
           </Card>
 
           {/* Writing Tips */}
-          <Card className="bg-linear-to-br from-primary/5 to-chart-2/5 border-primary/20">
+          <Card className="bg-primary/5 border-primary/20">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm flex items-center gap-2">
                 <Sparkles className="size-4 text-primary" />
@@ -875,21 +875,8 @@ export function AdminPage() {
     <div className="min-h-screen bg-background">
       {/* Ambient Background */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-linear-to-br from-primary/5 via-transparent to-transparent rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-linear-to-tl from-chart-2/5 via-transparent to-transparent rounded-full blur-3xl" />
-        {/* Diagonal lines pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.02] dark:opacity-[0.04]"
-          style={{
-            backgroundImage: `repeating-linear-gradient(
-              45deg,
-              currentColor 0,
-              currentColor 1px,
-              transparent 1px,
-              transparent 60px
-            )`,
-          }}
-        />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-chart-2/10 rounded-full blur-3xl" />
       </div>
 
       {/* Header */}
@@ -925,9 +912,9 @@ export function AdminPage() {
               </Button>
               <Link
                 to="/"
-                className="size-10 rounded-xl bg-linear-to-br from-primary to-chart-3 flex items-center justify-center text-primary-foreground font-bold text-sm"
+                className="size-10 rounded-xl overflow-hidden"
               >
-                EK
+                <img src="/profile.png" alt="EK" className="size-full object-cover object-top" />
               </Link>
             </div>
           </div>
