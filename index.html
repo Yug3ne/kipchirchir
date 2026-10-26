@@ -1,102 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="dark">
   <head>
-    <!-- Primary Meta Tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    <!-- SEO Meta Tags -->
-    <title>
-      Eugene Kipchirchir Koech | Full-Stack Developer 
-    </title>
-    <meta
-      name="title"
-      content="Eugene Kipchirchir Koech | Full-Stack Developer | React, Convex, Django, Laravel Expert"
-    />
+    <title>Eugene Kipchirchir Koech · Software Engineer, learning ML & Go</title>
     <meta
       name="description"
-      content="Eugene Kipchirchir Koech is a Full-Stack Developer specializing in React, React Native, Django, Laravel, and Next.js. A collaborative team player and leader, passionate about continuous learning. Currently expanding into backend development with Golang. Based in Kenya/Rwanda."
-    />
-    <meta
-      name="keywords"
-      content="Eugene Kipchirchir Koech, Full-Stack Developer, Software Engineer, React Developer, Django Developer, Laravel Developer, Next.js Developer, React Native Developer, Golang Developer, Go Developer, Web Developer Kenya, Software Developer Rwanda, Mobile App Developer, TypeScript, PostgreSQL, GraphQL, Expo, Tailwind CSS, Backend Developer"
+      content="Eugene Kipchirchir Koech is a software engineer in Nairobi who builds web and mobile apps and open-source developer infrastructure, and is learning machine learning and Go."
     />
     <meta name="author" content="Eugene Kipchirchir Koech" />
-    <meta
-      name="robots"
-      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
-    />
-    <meta name="googlebot" content="index, follow" />
-    <meta name="language" content="English" />
-    <meta name="revisit-after" content="7 days" />
-    <meta name="generator" content="Vite" />
-
-    <!-- Canonical URL -->
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://kipchirchirkoech.co.ke/" />
 
-    <!-- Favicon -->
-    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/profile.png" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0d0e11" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)" />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://kipchirchirkoech.co.ke/" />
-    <meta
-      property="og:title"
-      content="Eugene Kipchirchir Koech | Full-Stack Developer"
-    />
+    <meta property="og:site_name" content="Eugene Kipchirchir Koech" />
+    <meta property="og:title" content="Eugene Kipchirchir Koech · Software Engineer" />
     <meta
       property="og:description"
-      content="Full-Stack Developer specializing in React, Django, Laravel, and Next.js. Building scalable web and mobile applications with 2+ years of experience."
+      content="Full-stack software engineer building web, mobile and developer infrastructure. Currently learning ML and Go."
     />
-    <meta
-      property="og:image"
-      content="https://kipchirchirkoech.co.ke/profile.png"
-    />
+    <meta property="og:image" content="https://kipchirchirkoech.co.ke/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="Eugene Kipchirchir Koech - Full-Stack Developer"
-    />
-    <meta
-      property="og:site_name"
-      content="Eugene Koech Portfolio"
-    />
-    <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://kipchirchirkoech.co.ke/" />
-    <meta
-      name="twitter:title"
-      content="Eugene Kipchirchir Koech | Full-Stack Developer"
-    />
+    <meta name="twitter:creator" content="@_Yu_gene__" />
+    <meta name="twitter:title" content="Eugene Kipchirchir Koech · Software Engineer" />
     <meta
       name="twitter:description"
-      content="Full-Stack Developer specializing in React, Django, Laravel, and Next.js. Building scalable web and mobile applications."
+      content="Full-stack software engineer building web, mobile and developer infrastructure. Currently learning ML and Go."
     />
-    <meta
-      name="twitter:image"
-      content="https://kipchirchirkoech.co.ke/profile.png"
-    />
-    <meta
-      name="twitter:image:alt"
-      content="Eugene Kipchirchir Koech - Full-Stack Developer"
-    />
-    <meta name="twitter:creator" content="@_Yu_gene__" />
-    <meta name="twitter:site" content="@_Yu_gene__" />
+    <meta name="twitter:image" content="https://kipchirchirkoech.co.ke/og.png" />
 
-    <!-- Additional SEO -->
-    <meta name="theme-color" content="#e11d48" />
-    <meta name="msapplication-TileColor" content="#e11d48" />
+    <!-- Set the theme before first paint to avoid a flash -->
+    <script>
+      try {
+        var t = localStorage.getItem("theme");
+        if (t !== "light" && t !== "dark") {
+          t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.classList.toggle("dark", t === "dark");
+      } catch (e) {}
+    </script>
 
-    <!-- Geo Tags -->
-    <meta name="geo.region" content="KE" />
-    <meta name="geo.placename" content="Nairobi, Kenya" />
-
-    <!-- Structured Data - Person Schema -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -104,117 +55,25 @@
         "name": "Eugene Kipchirchir Koech",
         "alternateName": "Yug3ne",
         "url": "https://kipchirchirkoech.co.ke",
-        "image": "https://kipchirchirkoech.co.ke/profile.png",
-        "description": "Full-Stack Developer specializing in React, Django, Laravel, and Next.js",
-        "jobTitle": "Full-Stack Developer",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Freelance"
-        },
+        "image": "https://kipchirchirkoech.co.ke/profile.webp",
+        "jobTitle": "Software Engineer",
+        "worksFor": { "@type": "Organization", "name": "Payd", "url": "https://payd.money" },
         "alumniOf": [
-          {
-            "@type": "EducationalOrganization",
-            "name": "African Leadership University",
-            "url": "https://www.alueducation.com"
-          },
-          {
-            "@type": "EducationalOrganization",
-            "name": "Moringa School",
-            "url": "https://moringaschool.com"
-          }
+          { "@type": "EducationalOrganization", "name": "African Leadership University" },
+          { "@type": "EducationalOrganization", "name": "Moringa School" }
         ],
-        "knowsAbout": [
-          "React",
-          "React Native",
-          "Next.js",
-          "Django",
-          "Laravel",
-          "TypeScript",
-          "JavaScript",
-          "Python",
-          "PHP",
-          "Go",
-          "Golang",
-          "PostgreSQL",
-          "GraphQL",
-          "Expo",
-          "Tailwind CSS",
-          "Full-Stack Development",
-          "Mobile App Development",
-          "Backend Development"
-        ],
+        "knowsAbout": ["TypeScript", "React", "Vue", "React Native", "Expo", "Python", "Go", "Machine Learning", "Cloudflare Workers"],
         "sameAs": [
           "https://github.com/Yug3ne",
           "https://www.linkedin.com/in/eugenekoech9/",
-          "https://twitter.com/_Yu_gene__"
+          "https://x.com/_Yu_gene__"
         ],
-        "email": "eugenekoech9@gmail.com",
-        "telephone": "+254708676540",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Nairobi",
-          "addressCountry": "Kenya"
-        }
+        "address": { "@type": "PostalAddress", "addressLocality": "Nairobi", "addressCountry": "KE" }
       }
     </script>
-
-    <!-- Structured Data - WebSite Schema -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Eugene Kipchirchir Koech Portfolio",
-        "alternateName": "Kipchirchir Portfolio",
-        "url": "https://kipchirchirkoech.co.ke",
-        "description": "Portfolio website of Eugene Kipchirchir Koech, a Full-Stack Developer",
-        "author": {
-          "@type": "Person",
-          "name": "Eugene Kipchirchir Koech"
-        },
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://kipchirchirkoech.co.ke/#projects?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      }
-    </script>
-
-    <!-- Structured Data - Professional Service -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "Eugene Kipchirchir Koech - Full-Stack Development Services",
-        "description": "Professional full-stack web and mobile application development services using React, Django, Laravel, and Next.js",
-        "url": "https://kipchirchirkoech.co.ke",
-        "telephone": "+254708676540",
-        "email": "eugenekoech9@gmail.com",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Nairobi",
-          "addressCountry": "Kenya"
-        },
-        "priceRange": "$$",
-        "areaServed": ["Kenya", "Rwanda", "Remote/Worldwide"],
-        "serviceType": [
-          "Web Development",
-          "Mobile App Development",
-          "Full-Stack Development",
-          "React Development",
-          "Django Development",
-          "Laravel Development"
-        ]
-      }
-    </script>
-
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://github.com" />
-    <link rel="dns-prefetch" href="https://linkedin.com" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

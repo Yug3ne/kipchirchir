@@ -1,17 +1,17 @@
 # AGENTS.md
 
-This repository is a **Vite + React + TypeScript** app (ESM) with **Tailwind CSS** and a **Convex** backend (see `convex/`).
+This repository is a **static** single-page portfolio: **Vite + React + TypeScript** (ESM) with **Tailwind CSS**. It is prerendered to HTML at build time. There is no backend.
 
 This file is intended for agentic coding assistants. Follow it when making changes.
 
 ## Quick Facts
 
-- Runtime: browser (React 19, React Router v7)
-- Build tool: Vite
+- Runtime: browser (React 19), single page with no router
+- Build tool: Vite, plus an SSR build and `scripts/prerender.mjs` that writes static HTML into `dist/index.html`
 - Typecheck: `tsc -b` (project references)
 - Lint: ESLint (flat config)
 - Styling: Tailwind CSS v4 + `clsx`/`tailwind-merge` helper (`cn`)
-- Backend: Convex functions + Better Auth integration
+- Content: `src/data/profile.ts`
 
 ## Commands (Build / Lint / Test)
 
@@ -26,7 +26,7 @@ This file is intended for agentic coding assistants. Follow it when making chang
 ### Production build
 
 - `bun run build`
-  - Runs `tsc -b` then `vite build`.
+  - Runs `tsc -b`, `vite build`, an SSR build of `src/entry-server.tsx` into `dist-ssr/`, then `node scripts/prerender.mjs`, which injects the rendered HTML into `dist/index.html` at `<!--app-html-->` and deletes `dist-ssr/`.
 
 ### Preview production build
 
@@ -40,21 +40,6 @@ This file is intended for agentic coding assistants. Follow it when making chang
 ### Typecheck only
 
 - `npx tsc -b --pretty false`
-
-### Convex
-
-This repo contains a Convex functions directory at `convex/`.
-
-Common Convex commands (via npx):
-
-- `npx convex dev` (runs Convex locally / syncs functions)
-- `npx convex deploy` (deploys)
-- `npx convex -h` (help)
-
-Notes:
-
-- Convex auth routes are set up in `convex/http.ts`.
-- Convex Better Auth integration lives in `convex/auth.ts` and `convex/auth.config.ts`.
 
 ### Tests
 
@@ -74,15 +59,16 @@ For now, validate changes with:
 
 ## Project Layout
 
-- `src/` application code
-  - `src/main.tsx` app entry, router setup, providers
-  - `src/pages/` route pages
-  - `src/components/` shared components
-  - `src/components/ui/` UI primitives (shadcn/base-ui style)
-  - `src/hooks/` React hooks
-  - `src/lib/` small utilities, types, client wrappers
-- `convex/` backend functions and generated types
-  - `convex/_generated/` (generated; do not hand-edit)
+- `index.html` page shell, meta tags, theme bootstrap script, `<!--app-html-->` placeholder
+- `scripts/prerender.mjs` build-time prerender step
+- `src/`
+  - `src/main.tsx` client entry (hydrates prerendered HTML; renders from scratch in dev)
+  - `src/entry-server.tsx` SSR entry used only by the prerender step
+  - `src/App.tsx` page composition
+  - `src/data/profile.ts` all site content
+  - `src/components/` page sections (`Hero`, `Work`, `Lab`, `Experience`, `Contact`, `Terminal`, `NeuralPlayground`, …)
+  - `src/hooks/` React hooks (`use-theme.ts`)
+  - `src/lib/` utilities: `mlp.ts` (neural net), `terminal-commands.tsx`, `terminal-store.ts`, `go-snippet.ts`, `utils.ts`
 
 ## Code Style (TypeScript / React)
 
@@ -96,8 +82,8 @@ For now, validate changes with:
 
 Use this ordering (match existing patterns):
 
-1. React + React Router imports
-2. Third-party libs (e.g. `lucide-react`, `convex/*`, `better-auth/*`)
+1. React imports
+2. Third-party libs (e.g. `lucide-react`)
 3. App imports via alias `@/…` (preferred)
 4. Relative imports (`./…`) and CSS last
 
@@ -126,14 +112,12 @@ Notes:
 
 - Prefer functional components.
 - Prefer `useCallback` when passing handlers deeply or when referenced in deps.
-- Prefer `useSyncExternalStore` for external synchronous stores (see `src/hooks/use-auth.ts`).
+- Prefer `useSyncExternalStore` for external synchronous stores (see `src/hooks/use-theme.ts`, `src/lib/terminal-store.ts`).
 - Use `useEffect` for DOM side effects and subscriptions; always clean up.
 
 ### State and persistence
 
-- Local storage is used for:
-  - Auth state (`src/hooks/use-auth.ts`)
-  - Blog content during development (`src/hooks/use-blog.ts`)
+- Local storage is used only for the theme (`src/hooks/use-theme.ts` and the inline script in `index.html`).
 
 If you change storage formats:
 
@@ -145,42 +129,24 @@ If you change storage formats:
 - For conditional class names, use `cn` from `src/lib/utils.ts`.
 - Avoid introducing new styling libraries unless necessary.
 
-### Routing
+### Prerendering / hydration
 
-- Routes are defined in `src/main.tsx` using React Router.
-- Keep page components in `src/pages/`.
+- Components render on the server (Node) during the build. Do not touch `window`, `document` or `localStorage` during render; use effects.
+- Values that differ between server and client (time, theme) must render a stable placeholder first (see `NairobiClock`, and `useTheme`'s server snapshot).
 
 ## Error Handling Guidelines
 
 - Prefer user-safe error messages at UI boundaries; avoid leaking raw server errors.
 - Use `try/catch` around:
   - `JSON.parse` of localStorage values
-  - auth/network operations
+  - clipboard/network operations
 - When catching errors:
-  - If failure is non-critical (e.g. sign-out after local state cleared), swallow safely.
-  - Otherwise rethrow a new `Error` with a helpful message (see `useAuth.signIn`).
-
-## Convex Guidelines
-
-- Do not edit generated files under `convex/_generated/`.
-- Prefer `query`/`mutation` wrappers from `convex/_generated/server`.
-- Use Convex `v` validators (`convex/values`) for arguments.
-- When integrating auth:
-  - `convex/http.ts` registers auth routes.
-  - `convex/auth.ts` exposes `getCurrentUser` which returns `null` on unauthenticated access.
+  - If failure is non-critical (e.g. localStorage unavailable), swallow safely.
+  - Otherwise rethrow a new `Error` with a helpful message.
 
 ## Environment Variables
 
-Used in the client:
-
-- `VITE_CONVEX_URL` (see `src/main.tsx`)
-- `VITE_CONVEX_SITE_URL` (see `src/lib/auth-client.ts`)
-
-Used in Convex (server):
-
-- `SITE_URL` (see `convex/auth.ts`)
-
-Agents should not hardcode these; thread them through configuration.
+None. The site is fully static.
 
 ## Do / Don’t For Agents
 
@@ -188,7 +154,6 @@ Agents should not hardcode these; thread them through configuration.
 - Do prefer `@/…` imports over long relatives.
 - Do run at least `npm run lint` + `npx tsc -b` for validation.
 - Don’t add heavy dependencies without a clear requirement.
-- Don’t modify `convex/_generated/*` manually.
 - Don’t introduce a test runner unless requested; if you do, update this file.
 
 ## Cursor / Copilot Rules

@@ -1,32 +1,38 @@
-import { useEffect, useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 
-type Theme = "light" | "dark";
+export type Theme = "light" | "dark";
 
-export function useTheme() {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === "undefined") return "dark";
+const STORAGE_KEY = "theme";
+const listeners = new Set<() => void>();
 
-    const stored = localStorage.getItem("theme");
-    if (stored === "light" || stored === "dark") return stored;
-
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  });
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
-
-  return { theme, toggleTheme };
+function getSnapshot(): Theme {
+  return document.documentElement.classList.contains("dark") ? "dark" : "light";
 }
 
-export type { Theme };
+function getServerSnapshot(): Theme {
+  return "dark";
+}
+
+function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+export function setTheme(theme: Theme): void {
+  document.documentElement.classList.toggle("dark", theme === "dark");
+  try {
+    localStorage.setItem(STORAGE_KEY, theme);
+  } catch {
+    // storage unavailable (private mode); the class change still applies
+  }
+  listeners.forEach((l) => l());
+}
+
+export function useTheme() {
+  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const toggleTheme = useCallback(
+    () => setTheme(getSnapshot() === "dark" ? "light" : "dark"),
+    [],
+  );
+  return { theme, toggleTheme };
+}
