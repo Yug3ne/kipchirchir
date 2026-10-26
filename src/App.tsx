@@ -1,6 +1,5 @@
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
-import { Stats } from "@/components/Section";
 import { Work } from "@/components/Work";
 import { Lab } from "@/components/Lab";
 import { Experience } from "@/components/Experience";
@@ -19,7 +18,6 @@ export default function App() {
       <Nav />
       <main>
         <Hero />
-        <Stats />
         <Work />
         <Lab />
         <Experience />

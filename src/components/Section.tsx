@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { STATS } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
 export function Section({
@@ -44,27 +43,4 @@ export function Section({
 
 export function Serif({ children }: { children: ReactNode }) {
   return <span className="font-serif text-[1.08em] font-normal italic tracking-normal text-accent">{children}</span>;
-}
-
-export function Stats() {
-  return (
-    <div className="border-y border-line bg-elevated/40">
-      <dl className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4 md:px-2">
-        {STATS.map((s, i) => (
-          <div
-            key={s.label}
-            className={cn(
-              "flex flex-col-reverse justify-end px-5 py-7 md:px-6 md:py-9",
-              i % 2 === 1 && "border-l border-line",
-              i > 0 && "md:border-l",
-              i >= 2 && "border-t border-line md:border-t-0",
-            )}
-          >
-            <dt className="mt-1.5 text-[12.5px] leading-snug text-muted">{s.label}</dt>
-            <dd className="font-mono text-2xl font-medium tracking-tight md:text-3xl">{s.value}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-  );
 }

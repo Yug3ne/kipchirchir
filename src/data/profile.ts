@@ -239,13 +239,6 @@ export const GO_TOPICS = [
   "CLIs & tooling",
 ] as const;
 
-export const STATS = [
-  { value: "47", label: "counties of real Kenyan data in my ML project" },
-  { value: "2,000+", label: "tickets scanned live at Kabeberi 7s" },
-  { value: "$0–5", label: "a month to self-host Tidepush on Cloudflare" },
-  { value: "101", label: "tests in the Payd Node SDK" },
-] as const;
-
 export const TOOLBOX: { group: string; items: string[] }[] = [
   { group: "Languages", items: ["TypeScript", "JavaScript", "Python", "Go", "Kotlin (basic)", "SQL"] },
   { group: "Machine learning", items: ["NumPy", "pandas", "scikit-learn", "TensorFlow / Keras", "Jupyter"] },
