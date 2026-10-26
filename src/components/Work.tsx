@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { Archive, ArrowUpRight } from "lucide-react";
 import { HEARD_RESULTS, PROFILE, PROJECTS, type Project } from "@/data/profile";
 import { Section, Serif } from "@/components/Section";
 import { GithubIcon } from "@/components/icons";
@@ -153,6 +153,14 @@ function FeatureCard({ project, wide }: { project: Project; wide?: boolean }) {
       )}
     >
       <div className="flex flex-1 flex-col">
+        {project.archived ? (
+          <p className="mb-5 flex items-start gap-2.5 rounded-lg border border-warm/30 bg-warm/10 px-3.5 py-2.5 text-[13px] leading-snug text-fg/85">
+            <Archive className="mt-px size-4 shrink-0 text-warm" aria-hidden="true" />
+            <span>
+              <span className="font-medium text-warm">Archived.</span> {project.archived}
+            </span>
+          </p>
+        ) : null}
         <p className="eyebrow">
           {project.kind} · {project.year}
         </p>
@@ -198,6 +206,11 @@ function ProjectRow({ project }: { project: Project }) {
           ) : (
             project.name
           )}
+          {project.archived ? (
+            <span className="ml-2 rounded-full border border-warm/30 bg-warm/10 px-2 py-0.5 align-middle font-mono text-[10.5px] font-normal text-warm">
+              archived
+            </span>
+          ) : null}
         </h3>
         <p className="mt-1 max-w-2xl text-[14px] leading-relaxed text-muted">
           {project.tagline} {project.points[0]}.

@@ -29,6 +29,8 @@ export type Project = {
   repo?: string;
   live?: string;
   liveLabel?: string;
+  /** Set when a project is no longer maintained or working; shown as a banner. */
+  archived?: string;
 };
 
 export const PROJECTS: Project[] = [
@@ -61,13 +63,12 @@ export const PROJECTS: Project[] = [
     points: [
       "Published to npm as payd-node-sdk",
       "101 unit tests backed by shared JSON fixtures",
-      "Live playground for webhooks and API keys",
+      "Shipped with a playground for testing webhooks and API keys",
     ],
     kind: "Developer tools",
     year: "2026",
     repo: "https://github.com/Yug3ne/payd-sdks",
-    live: "https://yug3ne.github.io/payd-sdks/",
-    liveLabel: "Playground",
+    archived: "This SDK no longer works. The code is kept for reference.",
   },
   {
     slug: "who-gets-heard",

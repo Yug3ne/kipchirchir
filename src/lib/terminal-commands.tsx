@@ -95,6 +95,7 @@ export const COMMANDS: Record<string, Command> = {
           <Dim>
             {p.kind} · {p.year}
           </Dim>,
+          ...(p.archived ? [<span className="text-warm">[archived] {p.archived}</span>] : []),
           "",
           p.description,
           "",
@@ -110,6 +111,7 @@ export const COMMANDS: Record<string, Command> = {
           <span>
             <Acc>{pad(p.slug, 16)}</Acc>
             {p.tagline}
+            {p.archived ? <span className="text-warm"> [archived]</span> : null}
           </span>
         )),
         "",
